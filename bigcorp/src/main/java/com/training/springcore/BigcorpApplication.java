@@ -12,20 +12,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
-@EnableAspectJAutoProxy
-@EnableConfigurationProperties
 public class BigcorpApplication {
-    private final static Logger logger = LoggerFactory.getLogger(SiteService.class);
+
 
     public static void main(String[] args) {
-        ApplicationContext context = SpringApplication.run(BigcorpApplication.class, args);
+        SpringApplication.run(BigcorpApplication.class, args);
 
-        BigCorpApplicationProperties applicationInfo = context.getBean(BigCorpApplicationProperties.class);
-        logger.info("========================================================================");
-        logger.info("Application [" + applicationInfo.getName() + "] - version:" + applicationInfo.getVersion());
-        logger.info("plus d'informations sur " + applicationInfo.getWebSiteUrl());
-        logger.info("========================================================================");
-        context.getBean(SiteService.class).findById("test");
     }
 }
 

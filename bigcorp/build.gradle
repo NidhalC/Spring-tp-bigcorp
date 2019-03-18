@@ -17,7 +17,7 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	//implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -25,4 +25,8 @@ dependencies {
 	//compile('org.springframework.boot:spring-boot-starter-aop')
 	//compile('org.springframework.boot:spring-boot-starter-jdbc')
 	compile('com.h2database:h2')
+	compile('org.springframework.boot:spring-boot-starter-mustache')
+}
+bootRun{
+	sourceResources sourceSets.main
 }

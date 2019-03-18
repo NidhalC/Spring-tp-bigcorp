@@ -35,6 +35,12 @@ public class CaptorDaoImplTest {
     private CaptorDao captorDao;
 
     @Autowired
+    private  MeasureDao measureDao;
+
+    @Autowired
+    private SiteDao siteDao;
+
+    @Autowired
     private EntityManager entityManager;
 
     private Site site;
@@ -141,6 +147,37 @@ public class CaptorDaoImplTest {
 // à 0 je dois avoir une exception
         Assertions.assertThatThrownBy(() -> captorDao.save(captor))
                 .isExactlyInstanceOf(ObjectOptimisticLockingFailureException.class);
+    }
+
+    @Test
+    public void createShouldThrowExceptionWhenNameIsNull() {
+        Assertions
+                .assertThatThrownBy(() -> {
+                    captorDao.save(new RealCaptor(null, null) {
+                    });
+                    entityManager.flush();
+                })
+                .isExactlyInstanceOf(javax.validation.ConstraintViolationException.class)
+                .hasMessageContaining("must not be null");
+    }
+    @Test
+    public void createShouldThrowExceptionWhenNameSizeIsInvalid() {
+        Assertions
+                .assertThatThrownBy(() -> {
+                    captorDao.save(new RealCaptor("ee", site));
+                    entityManager.flush();
+                })
+                .isExactlyInstanceOf(javax.validation.ConstraintViolationException.class)
+                .hasMessageContaining("size must be between 3 and 100");
+    }
+    @Test
+    public void deleteBySiteId() {
+        Assertions.assertThat(captorDao.findBySiteId("site1")).hasSize(2);
+        measureDao.deleteAll();
+        captorDao.deleteBySiteId("site1");
+        siteDao.delete(site);
+
+        Assertions.assertThat(captorDao.findBySiteId("site1")).isEmpty();
     }
 
 }

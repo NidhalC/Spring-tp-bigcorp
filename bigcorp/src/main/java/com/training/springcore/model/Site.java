@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -16,7 +17,7 @@ public class Site {
      * Site id
      */
     @Id
-    private String id = UUID.randomUUID().toString();
+    private String id;
 
     @Version
     private int version;
@@ -25,8 +26,7 @@ public class Site {
      * Site name
      */
     @NotNull
-    @DecimalMin("3")
-    @DecimalMax("100")
+    @Size( min = 3, max = 100)
     private String name;
 
     /**
@@ -35,14 +35,16 @@ public class Site {
     @OneToMany(mappedBy = "site" )
     private Set<Captor> captors;
 
+    /**
+     * Constructor to use with required property
+     *
+     */
+
     public Site() {
         // Use for serializer or deserializer
     }
+    /** getteur setteur**/
 
-    /**
-     * Constructor to use with required property
-     * @param name
-     */
     public Site(String name) {
         this.name = name;
     }
@@ -79,6 +81,8 @@ public class Site {
         this.version = version;
     }
 
+    /** Method equals to String generate id**/
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -100,5 +104,9 @@ public class Site {
                 ", name='" + name + '\'' +
                 ", captors=" + captors +
                 '}';
+    }
+    @PrePersist
+    public  void generateId(){
+        this.id = UUID.randomUUID().toString();
     }
 }

@@ -31,6 +31,7 @@ public class FixedMeasureServiceTest {
     @Autowired
     private FixedMeasureService service;
 
+
     private Site site ;
 
     @Before
@@ -42,7 +43,7 @@ public class FixedMeasureServiceTest {
     /**
      * Captor used in tests
      */
-    private Captor captor = new RealCaptor("test",site);
+    private FixedCaptor captor = new FixedCaptor("test",site, null);
     /**
      * Start instant used in tests
      */
